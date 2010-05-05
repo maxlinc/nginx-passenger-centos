@@ -35,14 +35,13 @@ Perform the following on a build box as root.
     cp nginx-passenger-centos/spec/nginx.spec ~/rpmbuild/SPECS/
 
 ## Rebuild Nginx with Passenger Module
-    mkdir /tmp/nginx-build
+    mkdir /tmp/nginx-build && cd /tmp/nginx-build
     passenger-install-nginx-module --auto \
       --nginx-source-dir=/tmp/nginx-0.7.64 \
       --prefix=/tmp/nginx-build \
       --extra-configure-flags="--user=nginx --group=nginx --with-http_ssl_module --with-http_gzip_static_module --with-http_random_index_module --with-ipv6"
 
 ## Create RPM File Structure
-    cd /tmp/nginx-build
     mkdir -p nginx-0.7.64 nginx-0.7.64/usr/share/nginx nginx-0.7.64/etc/nginx
     mv html nginx-0.7.64/usr/share/nginx/
     mv conf/mime.types nginx-0.7.64/etc/nginx/

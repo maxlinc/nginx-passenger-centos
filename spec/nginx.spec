@@ -11,10 +11,10 @@ Name:           nginx
 Version:        0.7.64
 Release:        2%{?dist}
 Summary:        Fast Rails web serving.
-Group:          System Environment/Daemons   
+Group:          System Environment/Daemons
 
 License:        BSD
-URL:            http://nginx.org/ 
+URL:            http://nginx.org/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 
 BuildRequires:      ruby-devel,rubygems,git,pcre-devel,zlib-devel,openssl-devel
@@ -29,6 +29,7 @@ Requires(postun):   initscripts
 
 Source0:    http://nginx.org/download/nginx-%{version}.tar.gz
 Source1:    %{name}.init
+Source2:    %{name}.conf
 
 %description
 Nginx [engine x] is an HTTP(S) server, HTTP(S) reverse proxy and IMAP/POP3
@@ -47,6 +48,7 @@ cp -R * $RPM_BUILD_ROOT/
 find $RPM_BUILD_ROOT -type f -exec chmod 0644 {} \;
 chmod 0755 $RPM_BUILD_ROOT%{_sbindir}/%{name}
 %{__install} -p -D -m 0755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
+%{__install} -p -D -m 0755 %{SOURCE2} $RPM_BUILD_ROOT%%{nginx_confdir}/%{name}.conf
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_datadir}
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_home_tmp}
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_logdir}
@@ -147,7 +149,7 @@ fi
 
 * Tue Jul 22 2008 Jeremy Hinegardner <jeremy at hinegardner dot org> - 0.6.32-1
 - update to 0.6.32
-- nginx now supports DESTDIR so removed the patches that enabled it 
+- nginx now supports DESTDIR so removed the patches that enabled it
 
 * Mon May 26 2008 Jeremy Hinegardner <jeremy at hinegardner dot org> - 0.6.31-3
 - init script fixes
