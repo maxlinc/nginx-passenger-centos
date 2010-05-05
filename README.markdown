@@ -10,9 +10,6 @@ EngineYard Solo.
 
 Perform the following on a build box as root.
 
-## Install Passenger
-    gem install passenger -v 2.2.11
-
 ## Create an RPM Build Environment
 
     yum install rpmdevtools
@@ -34,6 +31,8 @@ Perform the following on a build box as root.
 
     git clone git://github.com/causes/nginx-passenger-centos.git
     cp nginx-passenger-centos/init/nginx.init ~/rpmbuild/SOURCES/
+    cp nginx-passenger-centos/conf/nginx.conf ~/rpmbuild/SOURCES/
+    cp nginx-passenger-centos/spec/nginx.spec ~/rpmbuild/SPECS/
 
 ## Rebuild Nginx with Passenger Module
     mkdir /tmp/nginx-build
@@ -48,8 +47,7 @@ Perform the following on a build box as root.
     mv html nginx-0.7.64/usr/share/nginx/
     mv conf/mime.types nginx-0.7.64/etc/nginx/
     mv sbin nginx-0.7.64/usr/
-    cp ../nginx-passenger-centos/conf/nginx.conf nginx-0.7.64/etc/nginx/
-    find . -maxdepth 1 -not -name nginx-0.7.64 -exec rm -rf {} \;
+    find . -maxdepth 1 -mindepth 1 -not -name nginx-0.7.64 -exec rm -rf {} \;
     tar -czf nginx-0.7.64.tar.gz nginx-0.7.64/
     mv -f nginx-0.7.64.tar.gz ~/rpmbuild/SOURCES/
 
