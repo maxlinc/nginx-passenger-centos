@@ -13,16 +13,19 @@ Perform the following on a build box as root.
 ## Install Passenger
     gem install passenger -v 2.2.11
 
-## Creating an RPM build env
+## Create an RPM Build Environment
 
     yum install rpmdevtools
     rpmdev-setuptree
 
-## Build box directions
+## Install Prerequisites for nginx + Passenger RPM Creation
 
     yum groupinstall 'Development Tools'
     yum install ruby-devel openssl-devel zlib-devel pcre-devel rubygems git
     gem install passenger -v 2.2.11
+
+## Prep for the RPM Creation
+
     cd /tmp
     wget http://nginx.org/download/nginx-0.7.64.tar.gz
     tar -xzf nginx-0.7.64.tar.gz
