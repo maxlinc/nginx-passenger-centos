@@ -52,7 +52,7 @@ Perform the following on a build box as root.
 
 ## Build the RPM
     cd ~/rpmbuild/
-    rpm -ba SPECS/nginx.spec
+    rpmbuild -ba SPECS/nginx.spec
 
 The resulting RPM will be:
 
