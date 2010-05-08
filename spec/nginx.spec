@@ -49,6 +49,7 @@ find $RPM_BUILD_ROOT -type f -exec chmod 0644 {} \;
 chmod 0755 $RPM_BUILD_ROOT%{_sbindir}/%{name}
 %{__install} -p -D -m 0755 %{SOURCE1} $RPM_BUILD_ROOT%{_initrddir}/%{name}
 %{__install} -p -D -m 0755 %{SOURCE2} $RPM_BUILD_ROOT%{nginx_confdir}/%{name}.conf
+%{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_confdir}/conf.d
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_datadir}
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_home_tmp}
 %{__install} -p -d -m 0755 $RPM_BUILD_ROOT%{nginx_logdir}
