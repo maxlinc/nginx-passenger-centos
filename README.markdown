@@ -11,49 +11,38 @@ EngineYard Solo.
 Perform the following on a build box as root.
 
 ## Create an RPM Build Environment
-
     yum install rpmdevtools
     rpmdev-setuptree
 
 ## Install Prerequisites for Nginx + Passenger RPM Creation
-
     yum groupinstall 'Development Tools'
     yum install ruby-devel openssl-devel zlib-devel pcre-devel rubygems git
     gem install passenger -v 2.2.11
 
-## Download & Extract Nginx
+Hereafter, this process assumes that `passenger-config --root` returns a
+usable value for the location of Passenger's installed files. The RPM will
+build nginx-specific extensions for Passenger (by running `rake nginx` in
+Passenger's main directory) and will compile against the module in Passenger's
+`ext/nginx/` directory.
 
-    cd /tmp
-    wget http://nginx.org/download/nginx-0.7.64.tar.gz
-    tar -xzf nginx-0.7.64.tar.gz
+Passenger's `ext/nginx/HelperServer` file is dynamically linked and must be
+present at runtime for the nginx integration to work correctly.
+
+## Download Nginx
+    cd ~/rpmbuild
+    curl http://nginx.org/download/nginx-0.7.65.tar.gz SOURCES/nginx-0.7.65.tar.gz
 
 ## Get Necessary System-specific Configs
-
+    cd /tmp
     git clone git://github.com/causes/nginx-passenger-centos.git
     cp nginx-passenger-centos/init/nginx.init ~/rpmbuild/SOURCES/
     cp nginx-passenger-centos/conf/nginx.conf ~/rpmbuild/SOURCES/
     cp nginx-passenger-centos/spec/nginx.spec ~/rpmbuild/SPECS/
 
-## Rebuild Nginx with Passenger Module
-    mkdir /tmp/nginx-build && cd /tmp/nginx-build
-    passenger-install-nginx-module --auto \
-      --nginx-source-dir=/tmp/nginx-0.7.64 \
-      --prefix=/tmp/nginx-build \
-      --extra-configure-flags="--user=nginx --group=nginx --with-http_ssl_module --with-http_gzip_static_module --with-http_random_index_module --with-ipv6"
-
-## Create RPM File Structure
-    mkdir -p nginx-0.7.64 nginx-0.7.64/usr/share/nginx nginx-0.7.64/etc/nginx
-    mv html nginx-0.7.64/usr/share/nginx/
-    mv conf/mime.types nginx-0.7.64/etc/nginx/
-    mv sbin nginx-0.7.64/usr/
-    find . -maxdepth 1 -mindepth 1 -not -name nginx-0.7.64 -exec rm -rf {} \;
-    tar -czf nginx-0.7.64.tar.gz nginx-0.7.64/
-    mv -f nginx-0.7.64.tar.gz ~/rpmbuild/SOURCES/
-
 ## Build the RPM
     cd ~/rpmbuild/
-    rpmbuild -ba SPECS/nginx.spec
+    rpmbuild -ba SPECS/nginx-passenger.spec
 
 The resulting RPM will be:
 
-    ~/rpmbuild/RPMS/x86_64/nginx-0.7.64-2.x86_64.rpm
+    ~/rpmbuild/RPMS/x86_64/nginx-passenger-0.7.65+2.2.11-2.x86_64.rpm
