@@ -30,7 +30,7 @@ present at runtime for the nginx integration to work correctly.
 
 ## Download Nginx
     cd ~/rpmbuild
-    curl http://nginx.org/download/nginx-0.7.65.tar.gz SOURCES/nginx-0.7.65.tar.gz
+    curl http://nginx.org/download/nginx-0.7.65.tar.gz -o SOURCES/nginx-0.7.65.tar.gz
 
 ## Get Necessary System-specific Configs
     cd /tmp
