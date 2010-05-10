@@ -34,9 +34,6 @@ Requires(postun):   initscripts
 Source0:    http://nginx.org/download/nginx-%{nginx_version}.tar.gz
 Source1:    %{nginx_name}.init
 Source2:    %{nginx_name}.conf
-Source100:  index.html
-Source101:  50x.html
-Source102:  404.html
 
 Patch0:     nginx-install-sbin.patch
 
@@ -122,7 +119,8 @@ chmod 0755 %{buildroot}%{_sbindir}/nginx
 %{__install} -p -d -m 0755 %{buildroot}%{nginx_home_tmp}
 %{__install} -p -d -m 0755 %{buildroot}%{nginx_logdir}
 %{__install} -p -d -m 0755 %{buildroot}%{nginx_webroot}
-%{__install} -p -m 0644 %{SOURCE100} %{SOURCE101} %{SOURCE102} %{buildroot}%{nginx_webroot}
+%{__install} -p -m 0644 html/50x.html %{buildroot}%{nginx_webroot}
+%{__install} -p -m 0644 html/index.html %{buildroot}%{nginx_webroot}
 
 # convert to UTF-8 all files that give warnings.
 for textfile in CHANGES

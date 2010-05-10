@@ -35,9 +35,8 @@ present at runtime for the nginx integration to work correctly.
 ## Get Necessary System-specific Configs
     cd /tmp
     git clone git://github.com/causes/nginx-passenger-centos.git
-    cp nginx-passenger-centos/init/nginx.init ~/rpmbuild/SOURCES/
-    cp nginx-passenger-centos/conf/nginx.conf ~/rpmbuild/SOURCES/
-    cp nginx-passenger-centos/spec/nginx.spec ~/rpmbuild/SPECS/
+    cp nginx-passenger-centos/{init,conf,patches}/* ~/rpmbuild/SOURCES/
+    cp nginx-passenger-centos/spec/nginx-passenger.spec ~/rpmbuild/SPECS/
 
 ## Build the RPM
     cd ~/rpmbuild/
