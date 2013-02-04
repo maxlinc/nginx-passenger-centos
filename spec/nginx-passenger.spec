@@ -9,6 +9,8 @@
 %define nginx_datadir   %{_datadir}/nginx
 %define nginx_webroot   %{nginx_datadir}/html
 %define passenger_version   3.0.19
+# This should match `passenger-config --root`
+%define passenger_dir   %{_libdir}/passenger-%{passenger_version}
 
 Name:           nginx-passenger
 Version:        %{nginx_version}+%{passenger_version}
@@ -73,6 +75,8 @@ EOF
 MY_BUILD_DIR=`pwd`
 cd `passenger-config --root`
 rake nginx
+mkdir -p $MY_BUILD_DIR/%{passenger_dir}
+cp -r . $MY_BUILD_DIR/%{passenger_dir}
 cd $MY_BUILD_DIR
 
 # nginx does not utilize a standard configure script.  It has its own
@@ -121,6 +125,7 @@ chmod 0755 %{buildroot}%{_sbindir}/nginx
 %{__install} -p -d -m 0755 %{buildroot}%{nginx_webroot}
 %{__install} -p -m 0644 html/50x.html %{buildroot}%{nginx_webroot}
 %{__install} -p -m 0644 html/index.html %{buildroot}%{nginx_webroot}
+%{__install} -p -d -m 0755 %{buildroot}/%{passenger_dir}
 
 # convert to UTF-8 all files that give warnings.
 for textfile in CHANGES
@@ -158,6 +163,7 @@ fi
 %defattr(-,root,root,-)
 %doc LICENSE CHANGES README
 %{nginx_datadir}/
+%{passenger_dir}/
 %{_sbindir}/%{nginx_name}
 %{_initrddir}/%{nginx_name}
 %dir %{nginx_confdir}
