@@ -126,6 +126,7 @@ chmod 0755 %{buildroot}%{_sbindir}/nginx
 %{__install} -p -m 0644 html/50x.html %{buildroot}%{nginx_webroot}
 %{__install} -p -m 0644 html/index.html %{buildroot}%{nginx_webroot}
 %{__install} -p -d -m 0755 %{buildroot}/%{passenger_dir}
+cp -a `pwd`/%{passenger_dir} %{buildroot}/%{passenger_dir}
 
 # convert to UTF-8 all files that give warnings.
 for textfile in CHANGES
